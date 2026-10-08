@@ -36,3 +36,14 @@ select
 from players
 group by abtest_group
 order by abtest_group;
+
+-- Day 1 assignment rate
+
+select
+   abtest_group
+,  count(distinct playerid) as players
+,  avg(if(date(assignment_date) = '2017-05-04', 1, 0)) as share_assigned_day_one
+from `king-ds-recruit-candidate-1121.abtest.assignment`
+where date(assignment_date) >= '2017-05-04' and date(assignment_date) <= '2017-05-22'
+group by abtest_group
+order by abtest_group;
