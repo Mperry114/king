@@ -1,3 +1,39 @@
+-- Average game rounds
+
+with players as (
+  select
+     distinct playerid
+  ,  abtest_group
+  ,  date(assignment_date) assignment_date
+  from `king-ds-recruit-candidate-1121.abtest.assignment`
+  where date(assignment_date) >= '2017-05-04' and date(assignment_date) <= '2017-05-22'
+),
+
+player_rounds as (
+  select
+     p.playerid
+  ,  p.abtest_group
+  ,  coalesce(sum(a.gameends), 0) as gamerounds
+  from players as p
+  left join `king-ds-recruit-candidate-1121.abtest.activity` as a
+    on  a.playerid = p.playerid
+    and date(a.activity_date) >= p.assignment_date
+    and date(a.activity_date) <= '2017-05-22'
+  group by p.playerid, p.abtest_group
+)
+
+select
+   abtest_group
+,  count(*) as players
+,  avg(gamerounds) as mean_gamerounds
+,  stddev(gamerounds) as sd_gamerounds
+from player_rounds
+group by abtest_group
+order by abtest_group;
+
+-- Days since assignment
+
+
 with players as (
   select
      distinct playerid
