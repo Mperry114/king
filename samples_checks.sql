@@ -1,4 +1,4 @@
--- Player belong to only one group
+-- Player belongs to only one group
 
 SELECT playerid
   , count(distinct abtest_group) assignment_groups
