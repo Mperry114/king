@@ -5,8 +5,6 @@ with players as (
   ,  date(assignment_date) assignment_date
   from `king-ds-recruit-candidate-1121.abtest.assignment`
   where date(assignment_date) >= '2017-05-04' and date(assignment_date) <= '2017-05-22'
-  -- optional fixed cohort, so every day has the same players:
-  -- and date(assignment_date) <= '2017-05-06'
 ),
  
 daily_activity as (
